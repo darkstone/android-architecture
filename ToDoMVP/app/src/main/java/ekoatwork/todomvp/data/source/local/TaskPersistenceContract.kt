@@ -8,7 +8,7 @@ object TaskPersistenceContract {
 
     const val taskTable = "task"
 
-    enum class TaskEntry(val column: String) : BaseColumns {
+    enum class Column(val column: String) : BaseColumns {
         ENTRY_ID(_ID),
         TITLE("title"),
         DESCRIPTION("description"),
@@ -20,17 +20,17 @@ object TaskPersistenceContract {
     const val NOT_NULL = "NOT NULL"
     const val PK = "primary key"
 
-    val createTableSql: String by lazy { """
+    val createTaskTable: String by lazy { """
             | create table $taskTable
             | (
-            |   ${TaskEntry.ENTRY_ID} $TEXT $NOT_NULL $PK,
-            |   ${TaskEntry.COMPLETED} $BOOL,
-            |   ${TaskEntry.TITLE} $TEXT $NOT_NULL,
-            |   ${TaskEntry.DESCRIPTION} $TEXT
+            |   ${Column.ENTRY_ID} $TEXT $NOT_NULL $PK,
+            |   ${Column.COMPLETED} $BOOL,
+            |   ${Column.TITLE} $TEXT $NOT_NULL,
+            |   ${Column.DESCRIPTION} $TEXT
             | )
         """.trimMargin()
     }
 
-    const val dropTableSql: String = "DROP TABLE $taskTable"
+    const val dropTaskTable: String = "DROP TABLE IF EXISTS $taskTable"
 
 }

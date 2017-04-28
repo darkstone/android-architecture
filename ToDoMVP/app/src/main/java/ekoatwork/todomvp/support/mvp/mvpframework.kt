@@ -1,9 +1,9 @@
 package ekoatwork.todomvp.support.mvp
 
-interface Presenter {
+interface BasePresenter {
     fun start()
 }
 
-interface BaseView<in T:Presenter> {
+interface BaseView<in T: BasePresenter> {
     fun setPresenter(presenter: T)
 }

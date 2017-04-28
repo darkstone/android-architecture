@@ -13,10 +13,8 @@ val Task.isEmpty : Boolean get() = title.isNullOrEmpty() and description.isNullO
 val Task.isSaved : Boolean get() = id == null
 
 fun Task.id(): String {
-    synchronized(this) {
-        if (!isSaved) {
-            id = "${UUID.randomUUID()}"
-        }
+    return synchronized(this) {
+        if (id == null) id = "${UUID.randomUUID()}"
+        id!!
     }
-    return id!!
 }

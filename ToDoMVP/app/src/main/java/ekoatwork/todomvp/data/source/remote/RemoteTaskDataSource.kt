@@ -7,6 +7,7 @@ import ekoatwork.todomvp.data.source.CompletionOrFailure
 import ekoatwork.todomvp.data.source.DataLoadCallback
 import ekoatwork.todomvp.data.source.TaskDataSource
 import ekoatwork.todomvp.support.withEach
+import ekoatwork.todomvp.tasks.TasksFilterType
 
 class RemoteTaskDataSource : TaskDataSource by Instance {
 
@@ -63,10 +64,23 @@ class RemoteTaskDataSource : TaskDataSource by Instance {
         override fun deleteTask(taskId: String, deleted: ((taskId: String, removedTask: Task?) -> Unit)?) {
             delay {
                 data.remove(taskId).let { removed ->
-                    if (deleted!=null) {
+                    if (deleted != null) {
                         deleted(taskId, removed)
                     }
                 }
+            }
+        }
+
+        override fun deleteTasks(filter: TasksFilterType, deleted: () -> Unit) {
+            delay {
+                data.entries.removeAll { (_, t) ->
+                    when (filter) {
+                        TasksFilterType.ALL_TASKS -> true
+                        TasksFilterType.ACTIVE_TASKS -> !t.completed
+                        TasksFilterType.COMPLETED_TASKS -> t.completed
+                    }
+                }
+                deleted()
             }
         }
 

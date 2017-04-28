@@ -7,11 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper
 class TaskDbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(TaskPersistenceContract.createTableSql)
+        db.execSQL(TaskPersistenceContract.createTaskTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL(TaskPersistenceContract.dropTableSql)
+        db.execSQL(TaskPersistenceContract.dropTaskTable)
+        onCreate(db)
     }
 
     companion object {

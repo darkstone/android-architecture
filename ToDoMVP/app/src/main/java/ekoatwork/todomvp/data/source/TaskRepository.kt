@@ -5,6 +5,7 @@ import ekoatwork.todomvp.data.id
 import ekoatwork.todomvp.data.source.local.TaskLocalDataSource
 import ekoatwork.todomvp.data.source.remote.RemoteTaskDataSource
 import ekoatwork.todomvp.support.withEach
+import ekoatwork.todomvp.tasks.TasksFilterType
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -20,9 +21,10 @@ class TaskRepository private constructor(
 
         private val lock = 1
         private var singleInstance: TaskRepository? = null
-        operator fun invoke(remoteTaskDataSource: RemoteTaskDataSource, localDataSource: TaskLocalDataSource) {
-            synchronized(lock) {
+        operator fun invoke(remoteTaskDataSource: RemoteTaskDataSource, localDataSource: TaskLocalDataSource) : TaskRepository {
+            return synchronized(lock) {
                 if (singleInstance == null) singleInstance = TaskRepository(remoteTaskDataSource, localDataSource)
+                singleInstance!!
             }
         }
 
@@ -153,6 +155,13 @@ class TaskRepository private constructor(
                 localDataSource.deleteTask(taskId)
             }
             deleted?.invoke(taskId, taskToDelete)
+        }
+    }
+
+    override fun deleteTasks(filter: TasksFilterType, deleted: () -> Unit) {
+        remoteTaskDataSource.deleteTasks(filter)
+        localDataSource.deleteTasks(filter) {
+            refreshTasks(deleted)
         }
     }
 }

@@ -1,6 +1,7 @@
 package ekoatwork.todomvp.data.source
 
 import ekoatwork.todomvp.data.Task
+import ekoatwork.todomvp.tasks.TasksFilterType
 
 interface DataLoadCallback<in T>  {
     fun onDataLoaded(data: List<T>)
@@ -20,4 +21,5 @@ interface TaskDataSource {
     fun refreshTasks(refreshed:(()->Unit)? = null)
     fun deleteTasks(completed:(()->Unit)? = null)
     fun deleteTask(taskId: String, deleted: ((taskId:String,removedTask:Task?) -> Unit)? = null)
+    fun deleteTasks(filter: TasksFilterType, deleted: (() -> Unit) = {})
 }
