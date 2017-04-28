@@ -2,7 +2,6 @@ package ekoatwork.todomvp.data.source.local
 
 import android.provider.BaseColumns
 import android.provider.BaseColumns._ID
-import ekoatwork.todomvp.data.Task
 
 object TaskPersistenceContract {
 
@@ -23,10 +22,10 @@ object TaskPersistenceContract {
     val createTaskTable: String by lazy { """
             | create table $taskTable
             | (
-            |   ${Column.ENTRY_ID} $TEXT $NOT_NULL $PK,
-            |   ${Column.COMPLETED} $BOOL,
-            |   ${Column.TITLE} $TEXT $NOT_NULL,
-            |   ${Column.DESCRIPTION} $TEXT
+            |   ${Column.ENTRY_ID.column} $TEXT $NOT_NULL $PK,
+            |   ${Column.COMPLETED.column} $BOOL,
+            |   ${Column.TITLE.column} $TEXT $NOT_NULL,
+            |   ${Column.DESCRIPTION.column} $TEXT
             | )
         """.trimMargin()
     }

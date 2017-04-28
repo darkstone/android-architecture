@@ -59,6 +59,8 @@ class TasksFragment : Fragment(), TaskContract.View {
             noTaskIcon = viewById(R.id.noTasksIcon)
             noTaskMainView = viewById(R.id.noTasksMain)
             noTaskAddView = viewById(R.id.noTasksAdd)
+            tasksView = viewById(R.id.tasksLL)
+            filteringLabelView = viewById(R.id.filteringLabel)
             noTaskAddView.setOnClickListener { showAddTask() }
 
             viewById<ListView>(R.id.tasks_list).adapter = taskListAdapter
@@ -136,7 +138,7 @@ class TasksFragment : Fragment(), TaskContract.View {
             if (tag != task) {
                 tag = task
                 withView<TextView>(R.id.title) { text = task.title }
-                withView<CheckBox>(R.id.completed) {
+                withView<CheckBox>(R.id.complete) {
                     isChecked = task.completed
                     setOnCheckedChangeListener { buttonView, isChecked ->
                         if (task.completed) {
@@ -223,15 +225,15 @@ class TasksFragment : Fragment(), TaskContract.View {
     }
 
     override fun showTasksMarkedActive() {
-        showMessage(getString(R.string.task_marked_active));
+        showMessage(getString(R.string.task_marked_active))
     }
 
     override fun showTasksCleared() {
-        showMessage(getString(R.string.completed_tasks_cleared));
+        showMessage(getString(R.string.completed_tasks_cleared))
     }
 
     override fun showLoadingTaskError() {
-        showMessage(getString(R.string.loading_tasks_error));
+        showMessage(getString(R.string.loading_tasks_error))
     }
 
     override fun showActiveFilterLabel() {
